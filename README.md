@@ -66,7 +66,7 @@ yt-dlp -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" "https://yo
 Process the input video, generate the annotated output file, and stream events to CSV:
 
 ```bash
-python src/main.py --input input/store_video.mp4 --output output/annotated_video.mp4 --csv output/events.csv --initial-headcount 6
+python src/main.py --input input/store_video.mp4 --output output/annotated_video.mp4 --csv output/events.csv --initial-headcount 8
 ```
 
 ### Real-Time Display Mode
@@ -83,12 +83,12 @@ python src/main.py --input input/store_video.mp4 --output output/annotated_video
 | `--input`, `-i` | `str` | `input/store_video.mp4` | Path to source video file or RTSP stream URL |
 | `--output`, `-o` | `str` | `output/annotated_video.mp4` | Destination path for annotated output video |
 | `--csv`, `-c` | `str` | `output/events.csv` | Destination path for event audit log |
-| `--model`, `-m` | `str` | `yolov8n.pt` | Detection model weights (yolov8n.pt, yolov8s.pt) |
-| `--tracker` | `str` | `bytetrack.yaml` | Multi-object tracking configuration file |
-| `--conf` | `float` | `0.35` | Minimum confidence threshold for human detection |
+| `--model`, `-m` | `str` | `models/yolov8n.pt` | Detection model weights (yolov8n.pt, yolov8s.pt) |
+| `--tracker` | `str` | `bytetrack_retail.yaml` | Multi-object tracking configuration file |
+| `--conf` | `float` | `0.28` | Minimum confidence threshold for human detection |
 | `--iou` | `float` | `0.50` | Non-Maximum Suppression (NMS) IoU threshold |
-| `--initial-headcount` | `int` | `6` | Calibrated customer/staff baseline at t=0 |
-| `--line-coords` | `str` | `0.55,0.85,0.98,0.72` | Normalized coordinates (x1,y1,x2,y2) for tripwire |
+| `--initial-headcount` | `int` | `8` | Calibrated customer/staff baseline at t=0 |
+| `--line-coords` | `str` | `0.62,0.77,0.98,0.74` | Normalized coordinates (x1,y1,x2,y2) for entrance gate |
 | `--show` | `flag` | `False` | Enables interactive graphical window |
 
 ---
@@ -100,12 +100,12 @@ Events are streamed sequentially as directional line crossings are verified:
 
 ```csv
 timestamp,person_id,event (IN/OUT),headcount
-00:00:04.150,7,IN,7
-00:00:05.800,8,IN,8
-00:00:06.450,9,IN,9
-00:00:18.200,10,IN,10
-00:00:19.500,11,IN,11
-00:00:44.800,1,OUT,10
+00:00:03.971,1,IN,9
+00:00:14.206,55,IN,10
+00:00:19.399,18,OUT,9
+00:00:23.294,17,IN,11
+00:01:07.593,406,OUT,10
+00:01:35.776,477,IN,11
 ```
 
 - **`timestamp`**: Media playback timecode formatted as `HH:MM:SS.mmm`.
