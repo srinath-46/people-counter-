@@ -1,0 +1,23 @@
+# Custom ByteTrack configuration for dense retail store CCTV
+# Tuned for cluttered environments with high occlusion rate and slow-moving subjects.
+
+tracker_type: bytetrack
+
+# First-stage match: lower = catches more low-confidence detections (partially occluded people)
+track_high_thresh: 0.20
+
+# Second-stage rescue: associate low-score detections with existing tracks before dropping them
+track_low_thresh: 0.08
+
+# Minimum confidence to start a new track (prevents ghost tracks from background noise)
+new_track_thresh: 0.30
+
+# Buffer frames before a lost track is discarded (higher = survives longer occlusions)
+# Retail store with dense shelving: people can be fully occluded for 3-4 seconds
+track_buffer: 60
+
+# Hungarian matching threshold (lower = tighter IoU match, less ID switches)
+match_thresh: 0.75
+
+# Fuse detection score into matching cost for more stable assignment on partial detections
+fuse_score: True
